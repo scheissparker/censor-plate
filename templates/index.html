@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Plate Censor — Private by design</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/" aria-label="Plate Censor home"><span class="brand-icon" aria-hidden="true">▰</span> PLATE CENSOR</a><span class="local-badge">● CPU · Local processing</span></header>
+    <section class="intro"><p class="eyebrow">A LITTLE PRIVACY. A LOT LESS WORK.</p><h1>Keep the photo.<br><span>Hide the plate.</span></h1><p>Censor European license plates in a whole batch of photos.<br>Drop them in, choose a style, and take your ZIP.</p></section>
+    <div id="model-status" class="model-status" role="status">Checking the plate detection model…</div>
+    <form id="batch-form">
+      <div class="workspace">
+        <section class="panel upload-panel" aria-labelledby="upload-title">
+          <div class="panel-heading"><h2 id="upload-title"><span class="step">01</span> Your photos</h2><span id="queue-count" class="muted">0 / 30</span></div>
+          <label id="drop-zone" class="drop-zone" for="files">
+            <span class="upload-icon" aria-hidden="true">↥</span><strong>Drop your photos here</strong><span>or <span class="browse">browse files</span></span><small>JPEG, PNG, WebP · Up to 30 photos · 20 MiB each</small>
+            <input id="files" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+          </label>
+          <div class="queue-heading"><span class="muted">UPLOAD QUEUE</span><button id="clear" type="button" class="text-button" disabled>Clear all</button></div>
+          <ul id="queue" class="queue" aria-label="Selected images"><li class="empty">Your next batch starts here.</li></ul>
+          <p class="fine-print">Still images only. Convert HEIC/HEIF photos to JPEG first. Outputs are JPEGs with EXIF and GPS metadata removed.</p>
+        </section>
+        <section class="panel controls-panel" aria-labelledby="settings-title">
+          <div class="panel-heading"><h2 id="settings-title"><span class="step">02</span> Make it yours</h2></div>
+          <fieldset id="settings"><legend class="sr-only">Censorship settings</legend>
+            <label for="style">Censorship style</label><select id="style" name="style"><option value="blackout">Solid blackout</option><option value="blur">Heavy Gaussian blur</option><option value="pixelate">Pixelation / mosaic</option></select>
+            <p class="hint">Blackout fully covers detected plates. Inspect every image before sharing.</p>
+            <div class="control-title"><label for="confidence">Detection confidence</label><output id="confidence-value" for="confidence">0.30</output></div>
+            <input id="confidence" name="confidence" type="range" min="0.1" max="0.9" step="0.05" value="0.30"><div class="range-labels"><span>Find more plates</span><span>Fewer false positives</span></div>
+            <div class="control-title"><label for="intensity">Censorship intensity</label><output id="intensity-value" for="intensity">61</output></div>
+            <input id="intensity" name="intensity" type="range" min="15" max="151" step="2" value="61"><p id="intensity-hint" class="hint">Used by blur and mosaic styles.</p>
+            <div class="control-title"><label for="padding">Extra coverage</label><output id="padding-value" for="padding">15%</output></div><input id="padding" name="padding" type="range" min="0" max="0.5" step="0.05" value="0.15"><p class="hint">Padding on each side helps cover plate edges.</p>
+            <div class="toggle-row"><label for="downscale"><strong>Resize large photos</strong><small>Faster processing, smaller downloads</small></label><input id="downscale" name="downscale" type="checkbox" checked></div>
+            <label for="max-resolution" class="sr-only">Maximum output dimension</label><select id="max-resolution" name="max_resolution"><option value="1280">1280 px · Fast</option><option value="2048" selected>2048 px · Balanced</option><option value="4096">4096 px · More detail</option></select><p class="hint">Caps the longest output edge. Detection always uses the model's fixed input size; tiny, distant plates may be missed.</p>
+          </fieldset>
+          <button id="submit" class="primary" type="submit" disabled>Censor photos <span aria-hidden="true">→</span></button>
+          <div id="progress-area" class="progress-area" hidden><div class="progress-title"><span id="progress-label">Uploading…</span><span id="progress-value"></span></div><progress id="progress" max="100" value="0" aria-label="Batch progress"></progress><button id="cancel" type="button" class="text-button">Cancel request</button></div>
+          <div id="result" class="result" role="status" hidden></div>
+          <div id="error" class="error" role="alert" hidden></div>
+        </section>
+      </div>
+    </form>
+    <aside class="notice"><span aria-hidden="true">ⓘ</span><p><strong>Always give the results a final look.</strong> Detection can miss small, angled, or obscured plates. The ZIP includes a manifest and a separate <code>review_required</code> folder for images with no detections. Blur and mosaic can leave text recognizable.</p></aside>
+    <footer><span>Made for European plates. Runs on your CPU.</span><span>Photos stay on the server you run.</span></footer>
+  </main>
+</body>
+</html>
