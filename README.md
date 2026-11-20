@@ -108,7 +108,7 @@ Model weights remain a runtime mount and are not in the published image.
 2. Choose the style. Blackout is the default; blur/mosaic may leave text readable.
 3. Lower confidence to detect more candidates; higher values reduce false positives.
 4. Choose output downscaling or preserve the decoded original dimensions.
-5. Click **Censor photos**, wait for upload/processing, then download the ZIP.
+5. Click **Censor photos**, then review the processed photos in the results grid. Select a preview to enlarge it, download a single JPEG, or download the whole batch as a ZIP.
 
 The upload percentage measures bytes sent. Processing uses an indeterminate
 indicator; there is no background job queue or persistent server gallery.
